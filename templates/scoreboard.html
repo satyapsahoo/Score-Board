@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Scoreboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Scoreboard Container -->
+        <div class="container">
+            <!-- Labels in the first row -->
+            <div class="label">Runs</div>
+            <div class="label">Wickets</div>
+            <div class="label">Overs</div>
+            <div class="label">Target</div>
+
+            <!-- Values in the second row -->
+            <div class="value" id="current_score">--</div>
+            <div class="value" id="wickets">--</div>
+            <div class="value" id="overs">--</div>
+            <div class="value" id="target_score">--</div>
+        </div>
+        
+        <!-- URL Input Field -->
+        <div class="url-input-container">
+            <div class="label">Enter Scorecard URL</div>
+            <input type="text" id="url_input" placeholder="Enter URL">
+            <button onclick="updateURL()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        let scorecardURL = "";
+        let defaultURL = "";
+
+        function updateURL() {
+            scorecardURL = document.getElementById('url_input').value;
+            if (scorecardURL) {
+                defaultURL = scorecardURL;
+                fetchScore(); 
+            }
+        }
+
+        function fetchScore() {
+            let urlToUse = defaultURL || scorecardURL;
+            if (!urlToUse) {
+                alert("Please enter a valid URL!");
+                return;
+            }
+
+            fetch(`/update_score?url=${encodeURIComponent(urlToUse)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert("Error fetching score. Please check the URL.");
+                        return;
+                    }
+                    document.getElementById('target_score').textContent = data.target_score;
+                    document.getElementById('current_score').textContent = data.current_score;
+                    document.getElementById('overs').textContent = data.overs;
+                    document.getElementById('wickets').textContent = data.wickets;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Failed to update score.");
+                });
+        }
+
+        setInterval(() => {
+            if (defaultURL) {
+                fetchScore();
+            }
+        }, 60000);
+    </script>
+</body>
+</html>

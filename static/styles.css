@@ -1,0 +1,79 @@
+/* Ensure the body takes full height and centers content */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container to center the scoreboard content */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    height: 90%; /* Leave space for the input at the bottom */
+}
+
+/* Scoreboard container layout */
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    grid-gap: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Style the label and values */
+.label {
+    font-size: 2.5em; /* Large font for labels */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.value {
+    font-size: 8em; /* Large font for values */
+}
+
+/* Input field fixed at the bottom */
+.url-input-container {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    background-color: black;
+    text-align: center;
+}
+
+.url-input-container .label {
+    font-size: 1.2em; /* Smaller label font for input field */
+}
+
+.url-input-container input {
+    width: 100%;
+    padding: 8px;
+    font-size: 1em; /* Smaller font size for input */
+}
+
+.url-input-container button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 1em; /* Smaller font size for button */
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
